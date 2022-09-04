@@ -7,7 +7,7 @@ from tinkoff.invest import Client, AsyncClient, CandleInterval
 
 from figi import L
 
-TOKEN = os.environ.get("TOKEN")
+TOKEN = os.environ.get("TINKOFF_TOKEN")
 
 
 def main():

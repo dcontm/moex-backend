@@ -30,7 +30,7 @@ async def get_last_price(websocket: WebSocket):
             except:
                 item["color"] = "grey"
             item["free_float"] = round((random.random() * 100), 2)
-            data[item["figi"]] = item
+            data[figi] = item
         await asyncio.sleep(0.5)
         await websocket.send_json(data)
 

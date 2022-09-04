@@ -11,7 +11,7 @@ from tinkoff.invest import AsyncClient, LastPriceInstrument, CandleInterval
 from tinkoff.invest.async_services import AsyncMarketDataStreamManager
 
 
-TOKEN = os.environ.get("TOKEN")
+TOKEN = os.environ.get("TINKOFF_TOKEN")
 
 
 async def get_candles(figi, from_, interval):
