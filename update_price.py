@@ -1,14 +1,11 @@
 import asyncio
 import os
-from figi import L
-import time
-from datetime import datetime, timedelta
+from datetime import timedelta
 from tinkoff.invest.utils import now
+from tinkoff.invest import AsyncClient, CandleInterval
 from db import redis
+from figi import L
 
-
-from tinkoff.invest import AsyncClient, LastPriceInstrument, CandleInterval
-from tinkoff.invest.async_services import AsyncMarketDataStreamManager
 
 
 TOKEN = os.environ.get("TINKOFF_TOKEN")

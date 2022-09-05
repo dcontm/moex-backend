@@ -1,6 +1,4 @@
-from re import L
-from typing import List, Set, Optional
-
+from typing import List
 from pydantic import BaseModel
 from fastapi_users import models
 

@@ -1,6 +1,5 @@
 from typing import List, Any, Optional
-from pydantic import BaseModel, root_validator
-from datetime import datetime
+from pydantic import BaseModel
 
 
 class Share(BaseModel):

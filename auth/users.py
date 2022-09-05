@@ -1,8 +1,5 @@
 from typing import Optional
-import asyncio
-import random
-
-from fastapi import Depends, Request, APIRouter, Response, WebSocket
+from fastapi import Depends, Request, APIRouter
 from fastapi_users import BaseUserManager, FastAPIUsers
 from fastapi_users.authentication import (
     AuthenticationBackend,
@@ -10,9 +7,8 @@ from fastapi_users.authentication import (
     JWTStrategy,
 )
 from fastapi_users.db import MongoDBUserDatabase
-
-from db import get_user_db, db, redis
-from .models import User, UserCreate, UserDB, UserUpdate, UserList
+from db import get_user_db, db
+from .models import User, UserCreate, UserDB, UserUpdate
 
 SECRET = "SECRET"
 

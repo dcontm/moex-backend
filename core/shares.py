@@ -2,9 +2,7 @@ import asyncio
 import time
 from datetime import timedelta
 import random
-
-from fastapi import WebSocket, APIRouter, Depends
-
+from fastapi import WebSocket, APIRouter
 from db import redis, db
 from service_api import get_candles
 from . import models

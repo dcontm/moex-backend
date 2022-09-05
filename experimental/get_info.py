@@ -1,10 +1,6 @@
-import asyncio
 import os
-import aioredis
 from datetime import datetime, timedelta
-
-from tinkoff.invest import Client, AsyncClient, CandleInterval
-
+from tinkoff.invest import Client, CandleInterval
 from figi import L
 
 TOKEN = os.environ.get("TINKOFF_TOKEN")
