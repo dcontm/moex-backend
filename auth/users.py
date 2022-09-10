@@ -79,11 +79,11 @@ async def get_users(
 async def get_user_portfolio(
     token: Union[str, None] = Body(default=None),
     current_user: User = Depends(fastapi_users.current_user())
+):
     '''Возращает портфолио пользователя:
         -открытые позиции,
         -текущее состояние баланса выраженное в (валюте, акциях)
     '''
-):
     portfolio = await get_portfolio()
     return portfolio
     

@@ -1,6 +1,7 @@
 import asyncio
 import os
 import time
+from datetime import timedelta
 from tinkoff.invest.utils import now
 from tinkoff.invest import Client, AsyncClient, LastPriceInstrument, CandleInterval
 from tinkoff.invest.async_services import AsyncMarketDataStreamManager
@@ -35,6 +36,8 @@ async def stream_last_price(redis):
     await redis_init(redis)
     keys = await redis.keys()
 
+    await last_close_price(redis, keys)
+
     async with AsyncClient(TOKEN) as client:
         market_data_stream: AsyncMarketDataStreamManager = (
             client.create_market_data_stream()
@@ -56,6 +59,22 @@ async def stream_last_price(redis):
                 await redis.hset(key, mapping=data)
             except AttributeError:
                 pass
+
+
+async def last_close_price(redis,keys):
+
+    for key in keys:
+        try:
+            candles = await get_candles(key, timedelta(days=5), "CANDLE_INTERVAL_DAY")
+            close = round(
+                float(f"{candles[-1].open.units}.{candles[-1].open.nano}"), 10
+            )
+            share = await redis.hgetall(key)
+            share["old_price"] = close
+            await redis.hset(key, mapping=share)
+            print(f"{key} set open day price {close}")
+        except:
+            print(f"Ошибка обновления {key}")
 
 async def get_portfolio():
     async with AsyncClient(TOKEN) as client:
