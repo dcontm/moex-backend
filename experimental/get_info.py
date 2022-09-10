@@ -32,5 +32,13 @@ def main1():
         return candles
 
 
+def main2():
+    with Client(TOKEN) as client:
+        response = client.users.get_accounts()
+        accounts = [account.id for account in response.accounts]
+        res = client.operations.get_portfolio(account_id=accounts[0])
+        print(res)
+
+
 if __name__ == "__main__":
-    main1()
+    main2()

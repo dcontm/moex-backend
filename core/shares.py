@@ -36,7 +36,6 @@ async def get_last_price(websocket: WebSocket):
 @router.get("/{figi}", response_model=models.ShareInfo)
 async def get_share_by_figi(figi: str):
     share = await db["shares"].find_one({"figi": figi}, {"_id": 0})
-    print(share)
     return share
 
 

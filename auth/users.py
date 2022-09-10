@@ -1,5 +1,5 @@
-from typing import Optional
-from fastapi import Depends, Request, APIRouter
+from typing import Optional, Union
+from fastapi import Depends, Request, APIRouter, Body
 from fastapi_users import BaseUserManager, FastAPIUsers
 from fastapi_users.authentication import (
     AuthenticationBackend,
@@ -9,6 +9,7 @@ from fastapi_users.authentication import (
 from fastapi_users.db import MongoDBUserDatabase
 from db import get_user_db, db
 from .models import User, UserCreate, UserDB, UserUpdate
+from service_api import get_portfolio
 
 SECRET = "SECRET"
 
@@ -73,6 +74,19 @@ async def get_users(
         users_list = await users.to_list(length=limit)
         return {"users": users_list}
     return f"Только для администратора"
+
+@router.get("/portfolio", tags=["users"])
+async def get_user_portfolio(
+    token: Union[str, None] = Body(default=None),
+    current_user: User = Depends(fastapi_users.current_user())
+    '''Возращает портфолио пользователя:
+        -открытые позиции,
+        -текущее состояние баланса выраженное в (валюте, акциях)
+    '''
+):
+    portfolio = await get_portfolio()
+    return portfolio
+    
 
 
 @router.get("/tracked/{figi}", tags=["users"])

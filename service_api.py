@@ -2,7 +2,7 @@ import asyncio
 import os
 import time
 from tinkoff.invest.utils import now
-from tinkoff.invest import AsyncClient, LastPriceInstrument, CandleInterval
+from tinkoff.invest import Client, AsyncClient, LastPriceInstrument, CandleInterval
 from tinkoff.invest.async_services import AsyncMarketDataStreamManager
 from db import redis
 from figi import L
@@ -12,7 +12,7 @@ from figi import L
 TOKEN = os.environ.get("TINKOFF_TOKEN")
 
 
-async def get_candles(figi, from_, interval):
+async def get_candles(figi:str, from_:str, interval:str):
     async with AsyncClient(TOKEN) as client:
         generator = client.get_all_candles(
             figi=figi,
@@ -23,7 +23,7 @@ async def get_candles(figi, from_, interval):
         return candles
 
 
-async def redis_init(redis):
+async def redis_init(redis:str):
     keys = await redis.keys()
 
     for item in L:
@@ -56,6 +56,13 @@ async def stream_last_price(redis):
                 await redis.hset(key, mapping=data)
             except AttributeError:
                 pass
+
+async def get_portfolio():
+    async with AsyncClient(TOKEN) as client:
+        response = await client.users.get_accounts()
+        accounts = [account.id for account in response.accounts]
+        portfolio = await client.operations.get_portfolio(account_id=accounts[0])
+        return portfolio
 
 
 if __name__ == "__main__":
