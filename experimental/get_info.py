@@ -5,11 +5,10 @@ from figi import L
 
 TOKEN = os.environ.get("TINKOFF_TOKEN")
 
-
 def main():
     with Client(TOKEN) as client:
         info = (
-            client.instruments.shares()
+            client.instruments.currencies()
         )  # currencies() - валюта, futures() - фьючерсы
         for i in info.instruments:
             if i.currency == "rub":
@@ -18,6 +17,16 @@ def main():
                     if every["figi"] == i.figi:
                         every["name"] = i.name
         print(L)
+
+def main01():
+    ''' Выводит доступный список валют'''
+    with Client(TOKEN) as client:
+        info = (
+            client.instruments.currencies()
+        )  # currencies() - валюта, futures() - фьючерсы
+        for i in info.instruments:
+                print(i.ticker, i.figi, i.name)
+
 
 
 def main1():
@@ -41,4 +50,4 @@ def main2():
 
 
 if __name__ == "__main__":
-    main2()
+    main()
