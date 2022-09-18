@@ -35,7 +35,7 @@ async def get_last_price(websocket: WebSocket):
         await asyncio.sleep(0.5)
         await websocket.send_json(data)
 
-@router.get("/", response_model=models.ShareList)
+@router.get("/")
 async def get_shares_from_redis():
     '''Возвращает список торговых инстументов 
     доступных в redis '''
