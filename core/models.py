@@ -1,12 +1,23 @@
-from typing import List, Any, Optional
+from typing import List, Any, Optional, Union
+from unicodedata import name
 from pydantic import BaseModel
+
 
 
 class Share(BaseModel):
     figi: str
+    ticker: str
+    name: str
+    time: str = None
+    price: str = None
+    old_price: str = None
+
+class ShareList(BaseModel):
+    shares: List[Share] = None
 
 
-class ShareInfo(Share):
+class ShareInfo(BaseModel):
+    figi: str
     ticker: str
     name: str
     total: Optional[int] = 0
